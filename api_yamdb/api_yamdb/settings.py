@@ -1,13 +1,21 @@
+import os
 from datetime import timedelta
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'p&l%385148kslhtyn^##a1)ilz@4zqj=rq&agdol^##zgl9(vs'
+DOTENV_PATH = BASE_DIR / 'api_yamdb' / '.env'
 
-DEBUG = True
+if os.path.exists(DOTENV_PATH):
+    load_dotenv(DOTENV_PATH)
 
-ALLOWED_HOSTS = ['*']
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+DEBUG = os.getenv('DEBUG') == 'True'
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
 
 # fmt: off
 INSTALLED_APPS = [
@@ -112,8 +120,8 @@ SIMPLE_JWT = {
 }
 
 EMAIL_HOST = 'smtp.mail.com'
-EMAIL_HOST_USER = 'agrelov882@mail.ru'
-EMAIL_HOST_PASSWORD = '55Dlyavpn55'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
